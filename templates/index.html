@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row g-4">
+
+  <div class="col-md-5">
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <h2 class="h5 card-title">1. Configurar cola</h2>
+        <form id="config-form" class="input-group">
+          <input type="number" id="capacity" class="form-control"
+                 min="1" value="5" required aria-label="Capacidad de la cola">
+          <button class="btn btn-outline-primary" type="submit">Crear</button>
+        </form>
+        <div class="form-text">Tamaño máximo de la cola.</div>
+      </div>
+    </div>
+
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <h2 class="h5 card-title">2. Operaciones</h2>
+        <form id="enqueue-form" class="input-group mb-3">
+          <input type="text" id="item" class="form-control"
+                 placeholder="Valor a encolar" autocomplete="off" required>
+          <button class="btn btn-primary" type="submit">Encolar</button>
+        </form>
+        <div class="d-grid gap-2 d-sm-flex">
+          <button id="btn-dequeue" class="btn btn-danger" type="button">Desencolar</button>
+          <button id="btn-peek" class="btn btn-secondary" type="button">Ver frente</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="h5 card-title">3. Cámara</h2>
+        <video id="camera" class="w-100 rounded bg-dark mb-3" autoplay playsinline muted></video>
+        <canvas id="snapshot" class="d-none"></canvas>
+        <div class="d-grid gap-2 d-sm-flex">
+          <button id="btn-camera" class="btn btn-outline-primary" type="button">Encender cámara</button>
+          <button id="btn-photo" class="btn btn-success" type="button" disabled>Tomar foto y encolar</button>
+        </div>
+        <div class="form-check form-switch mt-3">
+          <input class="form-check-input" type="checkbox" role="switch" id="six-seven-toggle" checked>
+          <label class="form-check-label" for="six-seven-toggle">Detectar el gesto 6-7</label>
+        </div>
+        <div id="six-seven-status" class="form-text">Enciende la cámara para activar el detector.</div>
+        <button id="btn-test-67" class="btn btn-sm btn-outline-secondary mt-2" type="button">Probar imagen</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-7">
+    <div id="alert-area"></div>
+    <div class="card shadow-sm">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">Cola</span>
+        <span id="counter" class="badge text-bg-primary">0 / 0</span>
+      </div>
+      <ul id="queue-list" class="list-group list-group-flush"></ul>
+      <div class="card-footer text-muted small text-center">
+        Sale por el frente ↑ &nbsp;·&nbsp; Entra por el final ↓
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="modal fade" id="sixseven-modal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center border-0">
+      <div class="modal-body">
+        <img src="{{ url_for('static', filename='img/sixseven.jpg') }}"
+             alt="Niño del meme six seven" class="img-fluid rounded mb-3">
+        <h2 class="h3 mb-0">¡SIX SEVEN! 🤣</h2>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
